@@ -7,6 +7,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 
 const {
   getUsuarios,
+  getAllUsuarios,
   crearUsuario,
   actualizarUsuario,
   borrarUsuario,
@@ -15,7 +16,10 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
-// Obtener Usuarios
+// Obtener todos los usuarios
+router.get('/all', validarJWT, getAllUsuarios);
+
+// Obtener Usuarios limitado
 router.get('/', validarJWT, getUsuarios);
 
 // Crear Usuarios

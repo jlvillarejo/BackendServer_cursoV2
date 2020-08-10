@@ -22,6 +22,20 @@ const getUsuarios = async (req, res) => {
   });
 };
 
+const getAllUsuarios = async (req, res) => {
+  const [usuarios, total] = await Promise.all([
+    Usuario.find({}, 'nombre apellidos email rol google img'),
+
+    Usuario.countDocuments(),
+  ]);
+
+  res.json({
+    ok: true,
+    usuarios,
+    total,
+  });
+};
+
 const crearUsuario = async (req, res = response) => {
   const { email, password } = req.body;
   const body = req.body;
@@ -146,6 +160,7 @@ const borrarUsuario = async (req, res = response) => {
 
 module.exports = {
   getUsuarios,
+  getAllUsuarios,
   crearUsuario,
   actualizarUsuario,
   borrarUsuario,
