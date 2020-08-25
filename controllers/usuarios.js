@@ -6,11 +6,12 @@ const { generarJWT } = require('../helpers/jwt');
 
 const getUsuarios = async (req, res) => {
   const desde = Number(req.query.desde) || 0;
+  const bloque = Number(req.query.bloque) || 5;
 
   const [usuarios, total] = await Promise.all([
     Usuario.find({}, 'nombre apellidos email rol google img')
       .skip(desde)
-      .limit(5),
+      .limit(bloque),
 
     Usuario.countDocuments(),
   ]);
@@ -139,6 +140,7 @@ const actualizarUsuario = async (req, res = response) => {
   }
 };
 
+// Borrar Usuario
 const borrarUsuario = async (req, res = response) => {
   const uid = req.params.id;
 
@@ -152,8 +154,10 @@ const borrarUsuario = async (req, res = response) => {
       });
     }
 
-    // await Usuario.findByIdAndDelete(uid);
-    await Usuario.findOneAndDelete(uid);
+    console.log(uid);
+    console.log(usuarioDB);
+    await Usuario.findByIdAndDelete(uid);
+    // await Usuario.findOneAndDelete(uid);
 
     res.json({
       ok: true,
