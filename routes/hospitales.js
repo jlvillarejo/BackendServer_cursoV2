@@ -13,12 +13,16 @@ const {
   crearHospital,
   actualizarHospital,
   borrarHospital,
+  getAllHospitales,
 } = require('../controllers/hospitales');
 
 const router = Router();
 
-// Obtener Hospitales
+// Obtener Hospitales desde/limite
 router.get('/', getHospitales);
+
+// Obtener todos los Hospitales
+router.get('/all', getAllHospitales);
 
 // Crear Hospitales
 router.post(

@@ -3,6 +3,24 @@ const { response } = require('express');
 const Hospital = require('../models/hospital');
 
 const getHospitales = async (req, res = response) => {
+  const desde = Number(req.query.desde) || 0;
+  const bloque = Number(req.query.bloque) || 5;
+
+  // const hospitales = await Hospital.find().populate('usuario', 'nombre img');
+  const [hospitales, total] = await Promise.all([
+    Hospital.find().populate('usuario', 'nombre img').skip(desde).limit(bloque),
+
+    Hospital.countDocuments(),
+  ]);
+
+  res.json({
+    ok: true,
+    hospitales,
+    total,
+  });
+};
+
+const getAllHospitales = async (req, res = response) => {
   // const hospitales = await Hospital.find().populate('usuario', 'nombre img');
   const hospitales = await Hospital.find().populate('usuario', 'nombre img');
 
@@ -108,4 +126,5 @@ module.exports = {
   crearHospital,
   actualizarHospital,
   borrarHospital,
+  getAllHospitales,
 };
